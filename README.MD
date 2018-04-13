@@ -35,7 +35,7 @@ Then internal cache uses a hashmap to store the values and a doubly linked list 
 
 - Everytime an item is requested it is pushed to the front of the priority queue.
 - If the cache has reached the maximum capacity the last item (the back) in the priority queue will be deleted from both the hash map and the priorty queue
-- The operation from fetching from the cache has the functional complexity is O(1)
+- The operation from fetching from the cache has the functional complexity of O(1)
 
 ### TTL Eviction
 
