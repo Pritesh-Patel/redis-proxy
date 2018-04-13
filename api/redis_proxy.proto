@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+import "google/protobuf/struct.proto";
+
+package redisproxy;
+
+service RedisProxyService {
+  rpc GetItem (GetItemRequest) returns (GetItemResponse) {
+    option (google.api.http) = {
+      get: "/v1/proxy/{id}"
+    };
+  }
+}
+
+message GetItemRequest {
+  string id = 1;
+}
+
+message GetItemResponse {
+  google.protobuf.Value data = 1;
+}
+
+message ApiError {
+  int32 code = 1;
+  string message = 2;
+}
