@@ -21,10 +21,10 @@ build-container: build
 
 test: build-container
 	go test pkg/internalcache/simple_internal_cache_test.go
-	docker.compose up -d
-	docker.compose exec redis redis-cli set it-test-1 1234
+	docker-compose up -d
+	docker-compose exec redis redis-cli set it-test-1 1234
 	go test it/integration_test.go
-	docker.compose down
+	docker-compose down
 
 
 
