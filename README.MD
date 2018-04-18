@@ -13,27 +13,26 @@ The architecture is very simple:
 ## Proxy Communication
 
 ### GRPC 
-  - By default availble on localhost:3000
+  - By default available on 0.0.0.0:3000
   - You can use grpcc or another grpc client to "curl" the service, a grpc client can be generated from proto in the api folder
 
 ### HTTP 
-  - By default availble on localhost:8080/v1/proxy/
-  - An example request `curl localhost:8080/v1/proxy/{KEY_NAME}`
-  - All data is marshalled to json by the GRPC gateway data types stored in redis will be respected including objects. ie. strings, ints, objects will be represented in there JSON form
+  - By default available on 0.0.0.0:8080/v1/proxy/
+  - An example request `curl 0.0.0.0:8080/v1/proxy/{KEY_NAME}`
+  - All data is marshaled to json by the GRPC gateway data types stored in redis will be respected including objects. ie. strings, ints, objects will be represented in there JSON form
 
 ## Instructions
-  - `make run-with-redis` will run the application with redis in docker compose
-  - `make run` will build and run the main.go file
-  - `make test` will start up the application with redis in docker compose run unit and integration tests. For the purpose of testing some test data is inserted into redis on start up of the application. It will the clean up by shutting down the docker containers.
+  - `make run` will start up the application with redis via docker compose
+  - `make test` will start up the application with redis in docker compose run unit and integration tests. For the purpose of testing some test data is inserted into redis on start up of the application. After the tests have been run it will shutdown redis and the application.
   - The application can be configured by environment variables, you can see the environment variables and there defaults in `cmd/main.go`
-  - Config can be override by adding environment variables to the `docker-compose.yml` file
+  - Configuration can be overridden by adding environment variables to the `redis-proxy.env` file, if you change the ports for either grpc / http make sure to update the docker-compose.yml to reflect this.
 
 ## Internal caching details
 Then internal cache uses a hashmap to store the values and a doubly linked list to track the priority of the item
 
 ### Retrieving
 
-- Everytime an item is requested it is pushed to the front of the priority queue.
+- Every time an item is requested it is pushed to the front of the priority queue.
 - If the cache has reached the maximum capacity the last item (the back) in the priority queue will be deleted from both the hash map and the priorty queue
 - The operation from fetching from the cache has the functional complexity of O(1)
 

@@ -1,14 +1,16 @@
 version: '3'
 services:
   redis-proxy:
+    env_file:
+      - redis-proxy.env
+    depends_on:
+      - redis
     build: .
-    network_mode: "host"
+    links:
+      - "redis:redis"
     tty: true
     ports:
       - "3000:3000"
       - "8080:8080"
   redis:
-    image: "redis:alpine"
-    network_mode: "host"
-    ports:
-      - "6379:6379"
+    image: "redis:alpine"      

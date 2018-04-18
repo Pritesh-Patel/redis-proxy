@@ -39,6 +39,7 @@ func main() {
 	viper.SetDefault("LOCAL_CACHE_TTL_CLEAN_INTERVAL_SECONDS", "1s")
 	viper.SetDefault("REDIS_MAX_IDLE_CONNECTIONS", 3)
 
+	viper.AutomaticEnv()
 
 	grpcHost := viper.GetString("GRPC_HOST")
 	grpcPort := viper.GetInt("GRPC_PORT")

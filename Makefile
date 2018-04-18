@@ -7,23 +7,17 @@ gen:
 	protoc ${PROTO_SOURCES} --go_out=plugins=grpc:. --grpc-gateway_out=logtostderr=true:. api/redis_proxy.proto
 
 run:
-	go run cmd/main.go
-
-run-with-redis:
+	docker-compose build
 	docker-compose up
 
-build:
-	dep ensure
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o bin/app cmd/main.go
-
-build-container: build
-	docker build -t "redis-proxy:latest" .
-
-test: build-container
-	go test pkg/internalcache/simple_internal_cache_test.go
+test:
+	docker-compose build
 	docker-compose up -d
+	docker-compose exec redis-proxy go test pkg/internalcache/simple_internal_cache_test.go
+	@echo Waiting 5 seconds for redis and the redis proxy to come up...
+	@sleep 5
 	docker-compose exec redis redis-cli set it-test-1 1234
-	go test it/integration_test.go
+	docker-compose exec redis-proxy go test it/integration_test.go
 	docker-compose down
 
 
