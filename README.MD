@@ -46,13 +46,5 @@ Then internal cache uses a hashmap to store the values and a doubly linked list 
 - Concurrency in the application is controlled by locks, the critical sections (writing to the cache) lock at the beginning of the operation and unlock at the end.
 - The redis connection is pooled with a default of 3 connections, this can be changed with config.
 
-## Time spent (roughly)
-- Research (1 hour)
-- GRPC & HTTP setup (5 mins)
-- Local Cache (25 mins)
-- Redis Cache (10 mins)
-- Marshalling from redis (40 mins)
-
-
 
 
