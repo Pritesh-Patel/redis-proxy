@@ -1,1 +1,5 @@
-name: test
+name: redis-proxy
+team: me
+maintainers:
+  - name: pritesh
+    email: test@email.com
